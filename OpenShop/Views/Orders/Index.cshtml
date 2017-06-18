@@ -1,0 +1,56 @@
+﻿@model IEnumerable<OpenShop.Models.Orders>
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Order</h2>
+
+@if (User.Identity.GetUserName() != "")
+{
+<p>
+    <a href="~/Products/Index" class="btn btn-default"> Add more</a>
+</p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.product_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.product_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price) лв.
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+    </table>
+using (Html.BeginForm())
+{
+   <input type="submit" value="Submit" class="btn btn-default"/>
+}
+}
+else {
+<h2>Please login to continue!</h2>
+}

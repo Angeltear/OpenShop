@@ -1,0 +1,75 @@
+﻿@model OpenShop.Models.Product
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function increment()
+    {
+      //  alert(document.getElementById('qty').value);
+        if (document.getElementById('qty').value > '@Html.Raw(Model.ProductQuantities.Quantity)')
+        {
+            alert('You can not select more quantity that is available!');
+            document.getElementById('qty').value = '@Html.Raw(Model.ProductQuantities.Quantity)';
+        }
+
+    }
+</script>
+
+<h2>Details</h2>
+
+
+<br />
+<p>
+    @Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-default" })
+</p>
+<br />
+@if (User.Identity.GetUserName() != "")
+{
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Product
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.product_name)
+        </dd>
+
+        <dt>
+            Price
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price) лв.
+        </dd>
+
+        <dt>
+            Available
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductQuantities.Quantity)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    @using (Html.BeginForm("Details", "Products"))
+    {
+        <input type="number" id="qty" value="Quantity"  name="quantity" onclick="increment()" onblur="increment()" />
+        <input type="submit" value="Withdraw" class="btn btn-default" />
+    }
+</div>
+<br />
+<br />
+}
+else
+{
+    <h2>Please login to continue!</h2>
+}

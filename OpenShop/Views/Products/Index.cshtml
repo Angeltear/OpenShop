@@ -1,0 +1,54 @@
+﻿@model IEnumerable<OpenShop.Models.Product>
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Products</h2>
+
+
+@if (User.Identity.GetUserName() == "admin@admin.com")
+{
+    @Html.ActionLink("Create", "Create",new { }, new { @class = "btn btn-default" })
+}
+<br />
+<br />
+<table class="table">
+    <tr>
+        <th>
+           Product
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.product_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.price) лв.
+        </td>
+        <td>@Html.DisplayFor(modelItem => item.ProductQuantities.Quantity)</td>
+        <td>
+            @Html.ActionLink("Select", "Details", new { id=item.Id }, new {@class="btn btn-default" }) 
+        </td>
+        @if (User.Identity.GetUserName() == "admin@admin.com")
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-default" })
+            </td>
+        }
+        
+    </tr>
+}
+
+</table>
